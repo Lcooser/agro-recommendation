@@ -1,0 +1,58 @@
+{
+  "weights": {
+    "ml": 0.65,
+    "similarity": 0.2,
+    "collaborative": 0.15
+  },
+  "rules": {
+    "upgrade_min_age_years": 6,
+    "collab_score_cap": 0.8
+  },
+  "candidates": {
+    "top_n_similar_clients": 8,
+    "fallback_all_products_limit": 100
+  },
+  "clusters": {
+    "cluster_size": 4
+  },
+  "ranking_metrics": {
+    "k": 3
+  },
+  "opportunity": {
+    "default_cluster_weight": 1.0,
+    "urgency": {
+      "base": 1.0,
+      "visit_weight": 0.03,
+      "growth_weight": 0.6,
+      "min": 0.8,
+      "max": 1.8
+    },
+    "cluster_weights": {
+      "0": 1.0,
+      "1": 1.1,
+      "2": 1.2,
+      "3": 0.95
+    }
+  },
+  "embeddings": {
+    "dimensions": 64,
+    "nearest_neighbors": 20
+  },
+  "postgres": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "agro",
+    "user": "postgres",
+    "password": "postgres"
+  },
+  "temporal": {
+    "default_month": 3,
+    "window_labels": [
+      "0-6 meses",
+      "6-12 meses",
+      "12-24 meses"
+    ],
+    "use_in_opportunity": true,
+    "opportunity_weight": 1.0
+  }
+}
