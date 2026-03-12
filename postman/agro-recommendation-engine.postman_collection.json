@@ -1,0 +1,266 @@
+{
+  "info": {
+    "_postman_id": "d0f89f5e-6e83-4a57-bf67-27f5c4c8c10a",
+    "name": "Agro Recommendation Engine API",
+    "description": "Collection completa da API de recomendacao hibrida do projeto Agro Recommendation Engine.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "cliente_id",
+      "value": "23"
+    },
+    {
+      "key": "produto",
+      "value": "plantadeira"
+    }
+  ],
+  "item": [
+    {
+      "name": "Recommend - Hybrid Ranking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cliente_id\": 1,\n  \"hectares\": 246,\n  \"cultura\": \"soja\",\n  \"possui_pulverizador\": 1,\n  \"possui_plantadeira\": 0,\n  \"possui_colheitadeira\": 0,\n  \"possui_trator\": 1,\n  \"regiao\": \"mato_grosso\",\n  \"idade_pulverizador\": 11,\n  \"idade_plantadeira\": 0,\n  \"idade_colheitadeira\": 0,\n  \"visitas_ultimos_6_meses\": 7,\n  \"num_oportunidades\": 1,\n  \"valor_oportunidades\": 99977.64,\n  \"maquinas_por_hectare\": 0.012195,\n  \"crescimento_area\": -0.0694\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/recommend?debug=true",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "recommend"
+          ],
+          "query": [
+            {
+              "key": "debug",
+              "value": "true"
+            }
+          ]
+        },
+        "description": "Retorna recomendacoes hibridas e, com debug=true, estatisticas de candidate generation."
+      }
+    },
+    {
+      "name": "Recommend Probability",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cliente_id\": 1,\n  \"produto\": \"plantadeira\",\n  \"hectares\": 246,\n  \"cultura\": \"soja\",\n  \"possui_pulverizador\": 1,\n  \"possui_plantadeira\": 0,\n  \"possui_colheitadeira\": 0,\n  \"possui_trator\": 1,\n  \"regiao\": \"mato_grosso\",\n  \"idade_pulverizador\": 11,\n  \"idade_plantadeira\": 0,\n  \"idade_colheitadeira\": 0,\n  \"visitas_ultimos_6_meses\": 7,\n  \"num_oportunidades\": 1,\n  \"valor_oportunidades\": 99977.64,\n  \"maquinas_por_hectare\": 0.012195,\n  \"crescimento_area\": -0.0694\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/recommend/probability",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "recommend",
+            "probability"
+          ]
+        },
+        "description": "Predicao supervisionada de probabilidade de compra para cliente-produto."
+      }
+    },
+    {
+      "name": "Temporal Purchase (12m)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cliente_id\": 1,\n  \"produto\": \"colheitadeira\",\n  \"hectares\": 1200,\n  \"cultura\": \"soja\",\n  \"possui_pulverizador\": 1,\n  \"possui_plantadeira\": 1,\n  \"possui_colheitadeira\": 0,\n  \"possui_trator\": 1,\n  \"regiao\": \"mato_grosso\",\n  \"idade_pulverizador\": 9,\n  \"idade_plantadeira\": 8,\n  \"idade_colheitadeira\": 0,\n  \"visitas_ultimos_6_meses\": 6,\n  \"num_oportunidades\": 2,\n  \"valor_oportunidades\": 250000,\n  \"maquinas_por_hectare\": 0.01,\n  \"crescimento_area\": 0.08,\n  \"mes_atual\": 3,\n  \"fase_safra\": \"colheita\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/temporal/purchase",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "temporal",
+            "purchase"
+          ]
+        },
+        "description": "Preve probabilidade de compra em 12 meses e janela esperada."
+      }
+    },
+    {
+      "name": "Similar Clients (Content-Based)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/similar/{{cliente_id}}?top_n=5",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "similar",
+            "{{cliente_id}}"
+          ],
+          "query": [
+            {
+              "key": "top_n",
+              "value": "5"
+            }
+          ]
+        },
+        "description": "Retorna clientes similares a partir do modelo content-based."
+      }
+    },
+    {
+      "name": "Client Cluster",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/cluster/{{cliente_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "cluster",
+            "{{cliente_id}}"
+          ]
+        },
+        "description": "Retorna o cluster KMeans do cliente e estatisticas do segmento."
+      }
+    },
+    {
+      "name": "Sales Opportunity",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/sales/opportunity?produto={{produto}}&top_n=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "sales",
+            "opportunity"
+          ],
+          "query": [
+            {
+              "key": "produto",
+              "value": "{{produto}}"
+            },
+            {
+              "key": "top_n",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Ranking comercial de clientes para visita, para um produto alvo."
+      }
+    },
+    {
+      "name": "Similar Clients (Vector Search)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/similar_vector/{{cliente_id}}?top_n=5",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "similar_vector",
+            "{{cliente_id}}"
+          ],
+          "query": [
+            {
+              "key": "top_n",
+              "value": "5"
+            }
+          ]
+        },
+        "description": "Busca de clientes similares via embeddings (pgvector/fallback local)."
+      }
+    },
+    {
+      "name": "Top Products by Client Vector",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/similar_vector/{{cliente_id}}/products?top_n=5",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "similar_vector",
+            "{{cliente_id}}",
+            "products"
+          ],
+          "query": [
+            {
+              "key": "top_n",
+              "value": "5"
+            }
+          ]
+        },
+        "description": "Retorna produtos mais proximos ao vetor do cliente."
+      }
+    }
+  ]
+}
