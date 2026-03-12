@@ -1,0 +1,18 @@
+services:
+  agro-db:
+    image: pgvector/pgvector:pg15
+    container_name: agro-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: agro
+      POSTGRES_USER: postgres
+    volumes:
+      - agro_pgdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - ./data/seed:/seed:ro
+
+volumes:
+  agro_pgdata:
