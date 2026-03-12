@@ -1,4 +1,5 @@
-import pandas as pd
+from pathlib import Path
+
 import joblib
 from xgboost import XGBClassifier
 from feature_engineering import load_dataset
@@ -13,6 +14,7 @@ model = XGBClassifier()
 
 model.fit(X, y)
 
-joblib.dump(model, "model.pkl")
+model_path = Path(__file__).resolve().parent / "model.pkl"
+joblib.dump(model, model_path)
 
 print("Modelo treinado")
