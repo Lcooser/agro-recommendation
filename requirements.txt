@@ -4,3 +4,4 @@ pandas
 joblib
 xgboost
 scikit-learn
+psycopg2-binary
